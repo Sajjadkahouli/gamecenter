@@ -1,0 +1,874 @@
+﻿<Window x:Class="Game_Center_Bergamo.MainWindow"
+        
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Game_Center_Bergamo"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:Converter="clr-namespace:Game_Center_Bergamo.Models"
+        mc:Ignorable="d" 
+        Title="MainWindow" Height="450" Width="800" WindowState="Maximized"
+        Icon="./Resources/Bergamo.jpg" Cursor="Hand">
+
+    <Window.Resources>
+        <Style x:Key="BtnCircleStyle" TargetType="Button">
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Opacity" Value=".5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="50" Margin="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                Cursor="Hand">
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" FlowDirection="RightToLeft"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <ControlTemplate x:Key="NoMouseOverButtonTemplate"   
+                 TargetType="Button">
+            
+            <Border Background="{TemplateBinding Background}"  
+          BorderBrush="{TemplateBinding BorderBrush}"  
+          BorderThickness="{TemplateBinding BorderThickness}">
+                <Border.Effect>
+                    <DropShadowEffect Color="LightGray"/>
+                </Border.Effect>
+               
+                
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </Border>
+
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled"  
+             Value="False">
+                    <Setter Property="Background"  
+              Value="{x:Static SystemColors.ControlLightBrush}" />
+                    <Setter Property="Foreground"  
+              Value="{x:Static SystemColors.GrayTextBrush}" />
+                </Trigger>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <SolidColorBrush x:Key="clBr" Color="Linen" />
+        <Converter:BooleanConverter x:Key="BooleanConverter"/>
+        
+    </Window.Resources>
+    <Grid Name="GridMain" Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" Name="Header"/>
+            <RowDefinition Height="2*" Name="Body"/>
+            <RowDefinition Height="*" Name="Footer"/>
+        </Grid.RowDefinitions>
+        
+        <Grid  Grid.Row="0" FlowDirection="RightToLeft" Name="GridHeader" >
+            <Grid.Resources>
+                
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                            <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width = "*"/>
+                <ColumnDefinition Width = "*"/>
+                <ColumnDefinition Width = "*"/>
+                <ColumnDefinition Width = "*"/>
+                <ColumnDefinition Width = "*"/>
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource BtnCircleStyle}" Grid.Column="7"  FontSize="15" FontFamily="B Elm" FontWeight="Heavy" FontStretch="SemiCondensed" Content="خروج" Click="btnclose_Click" Name="btnclose" Background="IndianRed"
+             VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <Button Name="btnHomePage" Click="btnHomePage_Click"        FontWeight="Heavy" FontStretch="SemiCondensed" Grid.Column = "0" HorizontalAlignment = "Stretch" Content = "صفحه اصلی" />
+            <Button Name="btnopentime"    FontWeight="Heavy" FontStretch="SemiCondensed" Grid.Column = "1" HorizontalAlignment = "Stretch" Content = "سیستم زماندار" Click="btnopentime_Click" />
+            <Button Name="btnAddMember" Click="btnAddMember_Click"      FontWeight="Heavy" FontStretch="SemiCondensed" Grid.Column="2" HorizontalAlignment="Stretch" Content="افزودن کاربر"  />
+            <Button Name="btnShowFactors" Click="btnShowFactors_Click"  FontWeight="Heavy" FontStretch="SemiCondensed" Grid.Column="3" HorizontalAlignment="Stretch" Content="مشاهده صورت حساب" />
+            <Button Name="btnShowMembers" Click="btnShowMembers_Click"  FontWeight="Heavy" FontStretch="SemiCondensed" Grid.Column = "4" HorizontalAlignment = "Stretch" Content = "مشاهده کاربران" />
+            <Button Name="btnBorrow" Click="btnBorrow_Click"            FontWeight="Heavy" FontStretch="SemiCondensed" Grid.Column = "5" HorizontalAlignment = "Stretch" Content = "کرایه"/>
+            <Button Name="btnAddCafe"    FontWeight="Heavy" FontStretch="SemiCondensed" Grid.Column = "6" HorizontalAlignment = "Stretch" Content = "افزودن به کافه" Click="ButtonAddCafe_Click" />
+        </Grid>
+        <Grid   Name="GridBody" Grid.RowSpan="2" Grid.Row="1" Background="Black" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" BorderBrush="{StaticResource BackgroundColorPrimary}" BorderThickness="5" CornerRadius="15" Margin="2 0">
+                <DockPanel Name="dockSps4N1" Visibility="Visible" >
+                    <TextBox Text="سیستم1" Name="txtps4N1" FlowDirection="RightToLeft" DockPanel.Dock="Top" Foreground="Linen" Background="Black" FontSize="13" FontFamily="B Nazanin" FontWeight="Heavy"/>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Label Name="lblStartps4N1" HorizontalAlignment="Left" Width="auto" Foreground="Linen"   Background ="Black"    FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Name="lblEndLiveps4N1" HorizontalAlignment="Right" Width="auto" Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Visibility="Collapsed" Name="lblEndps4N1" HorizontalAlignment="Right" Width="auto"  Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                    </StackPanel>
+                 
+                
+
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal" FlowDirection="RightToLeft">
+                        <TextBlock FontSize="17" FontFamily="B Nazanin" FontWeight="Heavy" Foreground="Linen" Text="تعداد دسته:" />
+                        <CheckBox Margin="5"  Checked="Controller3Ps4N1_Checked" Name="Controller3Ps4N1" Content="3" Background="Linen" Foreground="Linen"/>
+                        <CheckBox Margin="5"  Checked="Controller4Ps4N1_Checked" Name="Controller4Ps4N1" Content="4" Background="Linen" Foreground="Linen"/>
+                        
+                    </StackPanel>
+                    <Button VerticalAlignment="Stretch" Height="auto" Foreground="Linen" Name="btnps4N1" Content="Ps4N1" Background="Black" FontSize="20" FontFamily="Cooper Black" FontWeight="Heavy"    Click = "btnps4N1_Click"/>
+                </DockPanel>
+                    
+                </Border>
+                <Border Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" BorderBrush="{StaticResource BackgroundColorPrimary}" BorderThickness="5" CornerRadius="15" Margin="2 0">
+                <DockPanel >
+                    <TextBox Text="سیستم3" Name="txtps4N3" FlowDirection="RightToLeft" DockPanel.Dock="Top" Foreground="Linen" Background="Black" FontSize="13" FontFamily="B Nazanin" FontWeight="Heavy"/>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Label Name="lblStartps4N3" HorizontalAlignment="Left" Width="auto" Foreground="Linen"   Background ="Black"    FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Name="lblEndLiveps4N3" HorizontalAlignment="Right" Width="auto" Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Visibility="Collapsed" Name="lblEndps4N3" HorizontalAlignment="Right" Width="auto"  Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                    </StackPanel>
+                  
+
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal" FlowDirection="RightToLeft">
+                        <TextBlock FontSize="17" FontFamily="B Nazanin" FontWeight="Heavy" Foreground="Linen" Text="تعداد دسته:" />
+                        <CheckBox Margin="5"  Checked="Controller3Ps4N3_Checked" Name="Controller3Ps4N3" Content="3" Background="Linen" Foreground="Linen"/>
+                        <CheckBox Margin="5"  Checked="Controller4Ps4N3_Checked" Name="Controller4Ps4N3" Content="4" Background="Linen" Foreground="Linen"/>
+
+                    </StackPanel>
+                    <Button VerticalAlignment="Stretch" Height="auto" Foreground="Linen" Name="btnps4N3" Content="Ps4N3" Background="Black" FontSize="20" FontFamily="Cooper Black" FontWeight="Heavy"    Click = "btnps4N3_Click"/>
+                </DockPanel>
+                    
+                </Border>
+                <Border Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" BorderBrush="{StaticResource BackgroundColorPrimary}" BorderThickness="5" CornerRadius="15" Margin="2 0">
+                <DockPanel >
+                    <TextBox Text="سیستم2" Name="txtps4N2" FlowDirection="RightToLeft" DockPanel.Dock="Top" Foreground="Linen" Background="Black" FontSize="13" FontFamily="B Nazanin" FontWeight="Heavy"/>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Label Name="lblStartps4N2" HorizontalAlignment="Left" Width="auto" Foreground="Linen"   Background ="Black"    FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Name="lblEndLiveps4N2" HorizontalAlignment="Right" Width="auto" Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Visibility="Collapsed" Name="lblEndps4N2" HorizontalAlignment="Right" Width="auto"  Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                    </StackPanel>
+                 
+                 
+
+                    <StackPanel FlowDirection="RightToLeft" DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock FontSize="17" FontFamily="B Nazanin" FontWeight="Heavy" Foreground="Linen" Text="تعداد دسته:" />
+
+                        <CheckBox Margin="5"  Checked="Controller3Ps4N2_Checked" Name="Controller3Ps4N2" Content="3" Background="Linen" Foreground="Linen"/>
+                        <CheckBox Margin="5"  Checked="Controller4Ps4N2_Checked" Name="Controller4Ps4N2" Content="4" Background="Linen" Foreground="Linen"/>
+
+                    </StackPanel>
+                    <Button VerticalAlignment="Stretch" Height="auto" Foreground="Linen" Name="btnps4N2" Content="Ps4N2" Background="Black" FontSize="20" FontFamily="Cooper Black" FontWeight="Heavy"    Click = "btnps4N2_Click"/>
+                </DockPanel>
+                    
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" BorderBrush="{StaticResource BackgroundColorPrimary}" BorderThickness="5" CornerRadius="15" Margin="2 0">
+                <DockPanel >
+                    <TextBox Text="سیستم4" Name="txtps4N4" FlowDirection="RightToLeft" DockPanel.Dock="Top" Foreground="Linen" Background="Black" FontSize="13" FontFamily="B Nazanin" FontWeight="Heavy"/>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Label Name="lblStartps4N4" HorizontalAlignment="Left" Width="auto" Foreground="Linen"   Background ="Black"    FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Name="lblEndLiveps4N4" HorizontalAlignment="Right" Width="auto" Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Visibility="Collapsed" Name="lblEndps4N4" HorizontalAlignment="Right" Width="auto"  Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                    </StackPanel>
+                   
+                   
+
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal" FlowDirection="RightToLeft">
+                        <TextBlock FontSize="13" FontFamily="B Nazanin" FontWeight="Heavy" Foreground="Linen" Text="تعداد دسته" />
+                        <CheckBox Margin="5"  Checked="Controller3Ps4N4_Checked" Name="Controller3Ps4N4" Content="3" Background="Linen" Foreground="Linen"/>
+                        <CheckBox Margin="5"  Checked="Controller4Ps4N4_Checked" Name="Controller4Ps4N4" Content="4" Background="Linen" Foreground="Linen"/>
+
+                    </StackPanel>
+                    <Button VerticalAlignment="Stretch" Height="auto" Foreground="Linen" Name="btnps4N4" Content="Ps4N4" Background="Black" FontSize="20" FontFamily="Cooper Black" FontWeight="Heavy"    Click = "btnps4N4_Click"/>
+                </DockPanel>
+                    
+                </Border>
+
+        
+            </Grid>
+            <Grid Grid.Row="0" Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" BorderBrush="{StaticResource BackgroundColorPrimary}" BorderThickness="8" CornerRadius="15" Margin="2 0">
+                    
+                <DockPanel >
+                    <TextBox Text="سیستم5" Name="txtps5" FlowDirection="RightToLeft" DockPanel.Dock="Top" Foreground="Linen" Background="Black" FontSize="13" FontFamily="B Nazanin" FontWeight="Heavy"/>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Label Name="lblStartps5" HorizontalAlignment="Left" Width="auto" Foreground="Linen"   Background ="Black"    FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Name="lblEndLiveps5" HorizontalAlignment="Right" Width="auto" Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Visibility="Collapsed" Name="lblEndps5" HorizontalAlignment="Right" Width="auto"  Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                    </StackPanel>
+                   
+
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal" FlowDirection="RightToLeft">
+                        <TextBlock FontSize="17" FontFamily="B Nazanin" FontWeight="Heavy" Foreground="Linen" Text="تعداد دسته:" />
+                        <CheckBox Margin="5"  Checked="Controller3Ps5_Checked" Name="Controller3Ps5" Content="3" Background="Linen" Foreground="Linen"/>
+                        <CheckBox Margin="5"  Checked="Controller4Ps5_Checked" Name="Controller4Ps5" Content="4" Background="Linen" Foreground="Linen"/>
+
+                    </StackPanel>
+                    <Button VerticalAlignment="Stretch" Height="auto" Foreground="Linen" Name="btnps5" Content="Ps5" Background="Black" FontSize="20" FontFamily="Cooper Black" FontWeight="Heavy"    Click = "btnps5_Click"/>
+                </DockPanel>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="4" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" BorderBrush="{StaticResource BackgroundColorPrimary}" BorderThickness="8" CornerRadius="15" Margin="2 0">
+                <DockPanel >
+                    <TextBox Text="سیستم وی آی پی4" Name="txtVIP4" FlowDirection="RightToLeft" DockPanel.Dock="Top" Foreground="Linen" Background="Black" FontSize="13" FontFamily="B Nazanin" FontWeight="Heavy"/>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Label Name="lblStartVIP4" HorizontalAlignment="Left" Width="auto" Foreground="Linen"   Background ="Black"    FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Name="lblEndLiveVIP4" HorizontalAlignment="Right" Width="auto" Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Visibility="Collapsed" Name="lblEndVIP4" HorizontalAlignment="Right" Width="auto"  Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                    </StackPanel>
+                  
+
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal" FlowDirection="RightToLeft">
+                        <TextBlock FontSize="17" FontFamily="B Nazanin" FontWeight="Heavy" Foreground="Linen" Text="تعداد دسته:" />
+                        <CheckBox Margin="5"  Checked="Controller3VIP4_Checked" Name="Controller3VIP4" Content="3" Background="Linen" Foreground="Linen"/>
+                        <CheckBox Margin="5"  Checked="Controller4VIP4_Checked" Name="Controller4VIP4" Content="4" Background="Linen" Foreground="Linen"/>
+
+                    </StackPanel>
+                    <Button VerticalAlignment="Stretch" Height="auto" Foreground="Linen" Name="btnVIP4" Content="VIP4" Background="Black" FontSize="20" FontFamily="Cooper Black" FontWeight="Heavy"    Click = "btnVIP4_Click"/>
+
+                </DockPanel>
+                    
+                </Border>
+                <Border Grid.Row="2" Grid.Column="4" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" BorderBrush="{StaticResource BackgroundColorPrimary}" BorderThickness="10" CornerRadius="15" Margin="2 0">
+                <DockPanel >
+                    <TextBox Text="سیستم وی آی پی5" Name="txtVIP5" FlowDirection="RightToLeft" DockPanel.Dock="Top" Foreground="Linen" Background="Black" FontSize="13" FontFamily="B Nazanin" FontWeight="Heavy"/>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Label Name="lblStartVIP5" HorizontalAlignment="Left" Width="auto" Foreground="Linen"   Background ="Black"    FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Name="lblEndLiveVIP5" HorizontalAlignment="Right" Width="auto" Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Visibility="Collapsed" Name="lblEndVIP5" HorizontalAlignment="Right" Width="auto"  Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                    </StackPanel>
+                
+
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal" FlowDirection="RightToLeft">
+                        <TextBlock FontSize="17" FontFamily="B Nazanin" FontWeight="Heavy" Foreground="Linen" Text="تعداد دسته:" />
+                        <CheckBox Margin="5"  Checked="Controller3VIP5_Checked" Name="Controller3VIP5" Content="3" Background="Linen" Foreground="Linen"/>
+                        <CheckBox Margin="5"  Checked="Controller4VIP5_Checked" Name="Controller4VIP5" Content="4" Background="Linen" Foreground="Linen"/>
+
+                    </StackPanel>
+                    <Button VerticalAlignment="Stretch" Height="auto" Foreground="Linen" Name="btnVIP5" Content="VIP5" Background="Black" FontSize="20" FontFamily="Cooper Black" FontWeight="Heavy"    Click = "btnVIP5_Click"/>
+
+                </DockPanel>
+                    
+                </Border>
+            </Grid>
+            <Grid Grid.Row="0"  Grid.Column="0" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" HorizontalAlignment="Center" Source="Resources/cofeeshop.jpg" Stretch="Fill"/>
+
+                <ListBox Margin="5" Grid.Row="1" FontSize="15" FlowDirection="RightToLeft" Name="ListCafe" DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="GhostWhite" Background="Black" >
+                    <ListBox.Resources>
+
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
+
+
+                    </ListBox.Resources>
+                </ListBox>
+                <DockPanel Grid.Row="2" Name="dockcafe"  HorizontalAlignment="Stretch" >
+                
+                    
+                
+                <StackPanel VerticalAlignment="top" HorizontalAlignment="Center">
+                    
+                    <WrapPanel>
+                        <TextBox Name="txtCustumerName" FlowDirection="RightToLeft" VerticalAlignment="Bottom"  Width="100" Height="20" />
+                        
+                        <Label Content="نام"  Width="auto" Height="auto" Foreground="Linen" FontSize="15" FontFamily="B Mitra"  FontWeight="Heavy" FontStretch="SemiCondensed"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBox Name="txtNumberCafe" HorizontalAlignment="Stretch" Width="50" Height="20"  VerticalAlignment="Bottom" Text="1"/>
+                        <Label  Content="تعداد" HorizontalAlignment="Right" Width="auto" Height="auto" Foreground="Linen" FontSize="15" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                    <Button HorizontalAlignment="Stretch" MinWidth="40" Height="auto" Name="btnSubmitCafe"   Content="ثبت" Click="btnSubmitCafe_Click"/>
+                    <Button HorizontalAlignment="Stretch" MinWidth="40" Height="auto" Name="btnDeleteCafe"   Content="حذف" Click="btnDeleteCafe_Click"/>
+                            
+                    </WrapPanel>
+                </StackPanel>
+                
+            </DockPanel >
+            <DockPanel Name="dockAddCafe" Grid.Row="1"  Grid.Column="0" HorizontalAlignment="Stretch" Visibility="Hidden">
+                <StackPanel HorizontalAlignment="Left">
+
+                    <TextBox Name="txtProductName" FlowDirection="RightToLeft" VerticalAlignment="Bottom"  Width="100" Height="20" />
+                    <TextBox Name="txtPriceCafe" HorizontalAlignment="Stretch" Width="50" Height="20"  VerticalAlignment="Bottom" />
+                    <Button HorizontalAlignment="Stretch" Height="30" Width="50" Name="btnSubmitAddCafe"  VerticalAlignment="Bottom" Content="ثبت" Click="btnSubmitAddCafe_Click"/>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right">
+                    <Label Content="نام" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Width="auto" Height="auto" Foreground="Linen" FontSize="12" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed"/>
+                    <Label Content="قیمت" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Width="auto" Height="auto" Foreground="Linen" FontSize="12" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed"/>
+                </StackPanel>
+            </DockPanel>
+            </Grid>
+            <Border  Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" BorderBrush="{StaticResource BackgroundColorPrimary}" BorderThickness="10" CornerRadius="15" Margin="2 0">
+                
+                <DockPanel >
+                    <TextBox Text="بیلیارد" Name="txtbiliard" FlowDirection="RightToLeft" DockPanel.Dock="Top" Foreground="Linen" Background="Black" FontSize="13" FontFamily="B Nazanin" FontWeight="Heavy"/>
+                    <StackPanel  DockPanel.Dock="Top" Orientation="Horizontal">
+
+                        <Label Name="lblStartbiliard" DockPanel.Dock="Top" Height="30" Foreground="Linen"   Background ="Black"   FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Name="lblEndLivebiliard" DockPanel.Dock="Top" Height="30" Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                        <Label Visibility="Collapsed" Name="lblEndbiliard" DockPanel.Dock="Top" Height="30" Foreground="Linen"   Background ="Black" FontSize="15" FontWeight="Bold" FontStretch="SemiCondensed"/>
+                    </StackPanel>
+                    
+
+                    <Button Click="btnbiliard_Click" VerticalAlignment="Stretch" Name="btnbiliard"  Content="بیلیارد" Foreground="Linen" Background="Black" FontSize="30" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed"  Template="{StaticResource NoMouseOverButtonTemplate}" />
+                </DockPanel>
+            </Border>
+            
+            <Grid.Resources>
+                <ResourceDictionary>
+                    
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="Template" Value="{StaticResource NoMouseOverButtonTemplate}"/>
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Margin" Value="5"/>
+                    </Style>
+                </ResourceDictionary>
+                
+            </Grid.Resources>
+        </Grid>
+        <Grid Visibility="Hidden" FlowDirection="RightToLeft"  Name="GridAddMember"  Grid.Row="1" Background="Black" Margin="0,10,0,0">
+            <StackPanel HorizontalAlignment="Stretch"  Name="stackaddmember" VerticalAlignment="Stretch">
+                <DockPanel VerticalAlignment="Top">
+                    <Label Foreground="Linen"   Background ="Black" Name="lblName" Content="نام"/>
+                    <TextBox Name="txtNameAddMember" FlowDirection="RightToLeft" Foreground="Black"   Background ="Linen"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label Foreground="Linen"   Background ="Black" Name="lblPhone" Content="شماره تلفن"/>
+                    <TextBox Foreground="Black"   Background ="Linen" Name="txtPhoneAddMember" FlowDirection="RightToLeft"/>
+                    
+                </DockPanel>
+                <DockPanel>
+                    <Label Foreground="Linen"   Background ="Black" Name="lblGrade" Content="درجه مشتری"/>
+                    <TextBox Foreground="Black"   Background ="Linen" Name="txtGardeAddMember" FlowDirection="RightToLeft" />
+                    
+                </DockPanel>
+            <Button Click="btnSubmitAddMember_Click" Name="btnSubmitAddMember" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="100" Height="30" Content="ثبت"/>
+            </StackPanel>
+        </Grid>
+        <Grid Name="GridFooter" Grid.Row="2" Background="Black">
+            <Grid.Resources>
+                <Style TargetType="DataGrid">
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="1" Grid.Column="2" Name="lblsum" Content="0" VerticalAlignment="Bottom"  HorizontalAlignment="Center"    FontSize="15" FontWeight="Bold" Foreground="Khaki"/>
+            <Button Grid.Row="1" Grid.Column="2" Name="btnsum" Click="btnsum_Click" Content="مجموع روز" VerticalAlignment="Top" Margin="10" HorizontalAlignment="Center" Background="Black"    FontSize="15" FontWeight="Bold" Foreground="Khaki"/>
+            <Label Grid.Column="2" Grid.Row="1" Name="author" Content="producer : sajjadkahouli" VerticalAlignment="Center" Margin="10" HorizontalAlignment="Right"    FontSize="15" FontWeight="Bold" Foreground="Khaki" />
+            <Label Grid.Column="2" Grid.Row="1" Name="LiveTimeLabel" Content="%TIME%" VerticalAlignment="Center" Margin="10" HorizontalAlignment="Left"    FontSize="15" FontWeight="Bold" Foreground="Khaki" />
+            <Grid Grid.Column ="0" Grid.ColumnSpan="2" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+            <DataGrid Margin="5" Grid.Column="1" CellEditEnding="DtgFactorKol_CellEditEnding" FontSize="15"
+                      Name="DtgFactorKol"  ColumnWidth="*" HorizontalAlignment="Stretch" FlowDirection="RightToLeft" ItemsSource="{Binding Source=ListOfinvoicesFinall}" 
+                      AutoGenerateColumns="False"
+                ScrollViewer.CanContentScroll="True" 
+      ScrollViewer.VerticalScrollBarVisibility="Auto"
+      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                   PreviewKeyDown="DtgFactorKol_PreviewKeyDown"
+                 SelectionChanged="DtgFactorKol_SelectionChanged"     >
+                    <DataGrid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+
+                    </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Header="فیش"  Binding="{Binding Path=IDFactors}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="خریدار" Binding="{Binding Path=Name}" />
+                    <DataGridTextColumn IsReadOnly="True" Header="مبلغ"  Binding="{Binding Path=FinallyPrice}"/>
+                    <DataGridTextColumn Header="پرداختی"  Binding="{Binding Path=Payment}"/>
+
+
+                </DataGrid.Columns>
+            </DataGrid>
+                <Grid Grid.Column="0">
+                    <Grid.Resources>
+
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+
+                    </Grid.Resources>
+                    <Button Background="{StaticResource BackgroundColorPrimary}"   Name="btnTasvie" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="auto" Content="تسویه" Width="auto" VerticalAlignment="Stretch" Padding="5" Margin="5" Click="btnTasvie_Click"/>
+                </Grid>
+            </Grid>
+                <DataGrid  Name="DtgFactor" Grid.Column="2" Grid.Row="0" ColumnWidth="*" HorizontalAlignment="Stretch" FlowDirection="RightToLeft" ItemsSource="{Binding Source=ListOfinvoices}"  AutoGenerateColumns="False"
+                ScrollViewer.CanContentScroll="True" 
+                       FontSize="15"
+      ScrollViewer.VerticalScrollBarVisibility="Auto"
+      ScrollViewer.HorizontalScrollBarVisibility="Auto" Margin="5">
+                <DataGrid.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                            <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+
+                </DataGrid.Resources>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn  FontSize="22" FontFamily="B Baran" FontWeight="Heavy" Header="فیش" Binding="{Binding IDFactors}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                            <Grid Background="{TemplateBinding Background}">
+                                                <ContentPresenter VerticalAlignment="Center" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="22" FontFamily="B Baran" FontWeight="Heavy" Header="دستگاه" Binding="{Binding IDSystem}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                            <Grid Background="{TemplateBinding Background}">
+                                                <ContentPresenter VerticalAlignment="Center" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="22" FontFamily="B Baran" FontWeight="Heavy" Header="شناسه" Binding="{Binding IDPerson}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                            <Grid Background="{TemplateBinding Background}">
+                                                <ContentPresenter VerticalAlignment="Center" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="22" FontFamily="B Baran" FontWeight="Heavy"   Header="خریدار" Binding="{Binding Name}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                            <Grid Background="{TemplateBinding Background}">
+                                                <ContentPresenter VerticalAlignment="Center" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="15" FontFamily="Arial" FontWeight="Heavy" Header="شروع" Binding="{Binding Start}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                            <Grid Background="{TemplateBinding Background}">
+                                                <ContentPresenter VerticalAlignment="Center" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="15" FontFamily="Arial" FontWeight="Heavy" Header="پایان" Binding="{Binding End}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                            <Grid Background="{TemplateBinding Background}">
+                                                <ContentPresenter VerticalAlignment="Center" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="15" FontFamily="Arial" FontWeight="Heavy"  Header="قیمت کل" Binding="{Binding Price}">
+                        <DataGridTextColumn.CellStyle>
+                            
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                            <Grid Background="{TemplateBinding Background}">
+                                                <ContentPresenter VerticalAlignment="Center" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            
+        </Grid>
+        <Grid Visibility="Hidden" FlowDirection="RightToLeft"  Name="GridShowFactors" Grid.RowSpan="2"  Grid.Row="1" Background="Black" Margin="0,10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <Button Click = "btnShowAllFinallFactors_Click" FontSize="12" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" Foreground="Black"   Background ="Linen" Name="btnShowAllFinallFactors" Height="auto" Content="نمایش همه فاکتور های کلی"/>
+                <Button Click = "btnShowAllFactors_Click" FontSize="12" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" Foreground="Black"   Background ="Linen" Name="btnShowAllFactors" Height="auto" Content="نمایش همه فاکتور های جزئی"/>
+                <Button Click = "btnTotallSum_Click" FontSize="12" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" Foreground="Black"   Background ="Linen" Name="btnTotallSum" Height="auto" Content="فروش کل"/>
+            </StackPanel>
+
+
+            <DataGrid Margin="10" Grid.Row="1" Name="DtgShowFactor"  ColumnWidth="*" VerticalAlignment="Top" HorizontalAlignment="Right" FlowDirection="RightToLeft" ItemsSource="{Binding Source=partialinvoices}"  AutoGenerateColumns="False"
+                ScrollViewer.CanContentScroll="True" 
+      ScrollViewer.VerticalScrollBarVisibility="Auto"
+      ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy" Header="فیش" Binding="{Binding IDFactors}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy" Header="دستگاه" Binding="{Binding IDSystem}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy" Header="شناسه" Binding="{Binding IDPerson}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy"   Header="خریدار" Binding="{Binding Name}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy" Header="شروع" Binding="{Binding Start}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy" Header="پایان" Binding="{Binding End}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy"  Header="قیمت کل" Binding="{Binding Price}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            <DataGrid Margin="10" Grid.Row="2"  Name="DtgShowFactorKol" VerticalAlignment="Bottom" ColumnWidth="*" HorizontalAlignment="Left" FlowDirection="RightToLeft" ItemsSource="{Binding Source=GeneralInvoices}"  AutoGenerateColumns="False"
+                ScrollViewer.CanContentScroll="True" 
+      ScrollViewer.VerticalScrollBarVisibility="Auto"
+      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      FontSize="12" FontFamily="B Helal" FontWeight="Heavy"
+                   PreviewKeyDown="DtgFactorKol_PreviewKeyDown"     >
+                    <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Header="آیدی"  Binding="{Binding Path=IDPerson}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="خریدار" Binding="{Binding Path=Name}" />
+                        <DataGridTextColumn IsReadOnly="True" Header="مبلغ"  Binding="{Binding Path=FinallyPrice}"/>
+
+
+                    </DataGrid.Columns>
+                </DataGrid>
+                
+        </Grid>
+        <Grid Name="GridShowMembers" Visibility="Hidden" FlowDirection="RightToLeft"  Grid.Row="1" Grid.RowSpan="2" Background="Black">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel>
+                
+                <DockPanel>
+                <Label Margin="5" Content="جست و جو" Width="auto" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" Foreground="Linen"/>
+
+                </DockPanel>
+                <DockPanel>
+                <TextBox  Name="txtsearch" HorizontalAlignment="left" Width="100" Height="25" VerticalAlignment="Top" TextChanged="txtsearch_TextChanged" FontSize="10" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed"></TextBox>
+                <Button   Name="txtdelete" Content="حذف" HorizontalAlignment="center" Width="100" Height="25" VerticalAlignment="Top" FontSize="15" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" Click="txtdelete_Click"></Button>
+                </DockPanel>
+            </StackPanel>
+            <DataGrid Grid.Row="1" Grid.RowSpan="2" Name="dtgShowMembers" CellEditEnding="dtgShowMembers_CellEditEnding"  Margin="10" Foreground="Black" Background="Linen" FlowDirection="RightToLeft" ItemsSource="{Binding Source=AllPersons}"
+                      ColumnWidth="*" HorizontalAlignment="Stretch"  
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed"
+                  FontSize="20"
+                ScrollViewer.CanContentScroll="True" 
+      ScrollViewer.VerticalScrollBarVisibility="Auto"
+      ScrollViewer.HorizontalScrollBarVisibility="Auto">
+              
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Header="آیدی"  Binding="{Binding Path=ID}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="اسم" Binding="{Binding Path=Name}" />
+                    <DataGridTextColumn IsReadOnly="True" Header="شماره تلفن"  Binding="{Binding Path=PhoneNumber}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="درجه"  Binding="{Binding Path=Grade}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="قیمت خرید کل"  Binding="{Binding Path=TotalPrice}"/>
+                    <DataGridTextColumn x:Name="debt" Header="بدهی"  Binding="{Binding Path=Debt}"/>
+
+
+                    </DataGrid.Columns>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Style.Triggers>
+                                
+                                <DataTrigger Binding="{Binding Path = Debt ,Converter={StaticResource BooleanConverter}}" Value="1">
+                                    <Setter Property="Background" Value="Red"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path = Debt ,Converter={StaticResource BooleanConverter}}" Value="2">
+                                    <Setter Property="Background" Value="Yellow"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path = Debt ,Converter={StaticResource BooleanConverter}}" Value="3">
+                                    <Setter Property="Background" Value="Green"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <DataGrid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+
+                    </DataGrid.Resources>
+                </DataGrid>
+                
+            
+        </Grid>
+        <Grid Visibility="Hidden" Name="GridBorrow" Grid.RowSpan="2" Grid.Row="1" FlowDirection="RightToLeft" Background="Black">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="*"/>
+                
+            </Grid.RowDefinitions>
+            <DataGrid  ItemsSource="{Binding Source=Borrows}" Name="dtgBorrow" Grid.Row="0" Background="Linen" Foreground="Black" Margin="10" AutoGenerateColumns="False"
+                       ScrollViewer.VerticalScrollBarVisibility="Auto"
+      ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                <DataGrid.Columns>
+                    <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy" Header="آیدی" Binding="{Binding ID}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy" Header="نام کرایه گیرنده" Binding="{Binding Name}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy" Header="مدت زمان کرایه" Binding="{Binding Long}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy"   Header="مدرک ضمانت" Binding="{Binding Borrow}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy" Header="شروع" Binding="{Binding StartTime}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy" Header="پایان" Binding="{Binding EndTime}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy"  Header="تاریخ" Binding="{Binding Date}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy" Header="شماره تلفن" Binding="{Binding PhoneNumber}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn FontSize="12" FontFamily="B Helal" FontWeight="Heavy" Header="آدرس" Binding="{Binding Address}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" 
+                                    Value="{StaticResource clBr}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Grid.Row="1"  Orientation="Horizontal">
+
+                <Label FontSize="20" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" MaxHeight="40"   MaxWidth="300"  Margin="1" Name="NameBorrow" Content = "نام" Width="auto"  Background="Linen" Foreground="Black"/>
+                <TextBox FontSize="20" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" MaxHeight="40" MaxWidth="300" Margin="1" MinWidth="100" Name="txtNameBorrow" Width="auto"/>
+                <Label   FontSize="13" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" MaxHeight="40" MaxWidth="300" Margin="1" Name="HowLong" Content = "ساعت کرایه" Width="auto" Background="Linen" Foreground="Black"/>
+                <CheckBox Name="hour12" Checked ="hour12_Checked"  Width="auto" Background="Linen" Foreground="Linen" Content="12" FontSize="13" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" MaxHeight="40" MaxWidth="300" Margin="1"/>
+                <CheckBox Name="hour24" Checked ="hour24_Checked"  Content="24" FontSize="13" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" MaxHeight="40" MaxWidth="300" Margin="1" Width="auto" Background="Linen" Foreground="Linen"/>
+                <Label FontSize="13" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" MaxHeight="40"   MaxWidth="100"  Margin="1" Name="WhatBorrow" Content = "مدرک ضمانت" Width="auto"  Background="Linen" Foreground="Black"/>
+                <StackPanel VerticalAlignment="Center">
+                <CheckBox Content="کارت ملی" FontSize="13" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" Margin="1" Name="txtCartMeli" Width="auto" Foreground="Linen"/>
+                <CheckBox Content = "کارت ماشین" FontSize="13" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" Margin="1" Name="txtCartMashin" Width="auto" Foreground="Linen"/>
+                <CheckBox Content = "شناسنامه" FontSize="13" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" Margin="1" Name="txtShenasname" Width="auto" Foreground="Linen"/>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center">
+                    <Label FontSize="13" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" MaxHeight="40"   MaxWidth="300"  Margin="1" Name="lblAddress" Content = "آدرس" Width="auto"  Background="Linen" Foreground="Black"/>
+                    <TextBox FontSize="13" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" MaxHeight="40"   MinWidth="300"  Margin="1" Name="txtAddress"  Width="auto"  Background="Linen" Foreground="Black"/>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center">
+                    <Label FontSize="13" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" MaxHeight="40"   MaxWidth="300"  Margin="1" Name="lblPhoneNumber" Content = "شماره تلفن" Width="auto"  Background="Linen" Foreground="Black"/>
+                    <TextBox FontSize="13" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" MaxHeight="40"   MaxWidth="300"  Margin="1" Name="txtPhoneNumber"  Width="auto"  Background="Linen" Foreground="Black"/>
+                </StackPanel>
+                <Button Click="btnConfirm_Click"  FontSize="20" FontFamily="B Mitra" FontWeight="Heavy" FontStretch="SemiCondensed" MaxHeight="40" MaxWidth="300" Name="btnConfirm" Width="100" Margin="10" Content="ثبت کرایه"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+ 
+</Window>
